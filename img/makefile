@@ -82,17 +82,17 @@ endif
 debug:		$(IMAGE)
 ifeq ($(NODES),1)
 		$(EMULATOR)$(IMAGE) | $(TEE) $(OUTPUT) &
-		$(DEBUGGER)
+		$(TERM) '$(DEBUGGER)'
 else
 		$(TERM) "$(EMULATOR)$(IMAGE) $(NETWORK) | $(TEE) $(OUTPUT) \
 		&& $(TCPDUMP) $(APPLICATION).pcap > $(APPLICATION).net \
 		&& read -p 'Press [Enter] key to close ...'" &
-		$(DEBUGGER) &
+		$(TERM) '$(DEBUGGER)' &
 		sleep 2
 		$(TERM) "$(PEER_EMULATOR)$(PEER_IMAGE) $(PEER_NETWORK) | $(TEE) $(PEER_OUTPUT) \
 		&& $(TCPDUMP) $(PEER).pcap > $(PEER).net \
 		&& read -p 'Press [Enter] key to close ...'" &
-		$(PEER_DEBUGGER) &
+		$(TERM) '$(PEER_DEBUGGER)' &
 endif
 
 runall:		FORCE
