@@ -880,7 +880,7 @@ void PC_Setup::call_next()
     int cpu_id = CPU::id();
 
     // Check for next stage and obtain the entry point
-    register Log_Addr ip;
+    Log_Addr ip;
     if(si->lm.has_ini) {
         db<Setup>(TRC) << "Executing system's global constructors ..." << endl;
         reinterpret_cast<void (*)()>((void *)si->lm.sys_entry)();
@@ -894,7 +894,7 @@ void PC_Setup::call_next()
     // Bootstrap CPU uses a full stack, while non-boot get reduced ones
     // The 2 integers on the stacks are room for return addresses used
     // in some EPOS architectures
-    register Log_Addr sp = SYS_STACK + Traits<System>::STACK_SIZE * (cpu_id + 1) - 2 * sizeof(int);
+    Log_Addr sp = SYS_STACK + Traits<System>::STACK_SIZE * (cpu_id + 1) - 2 * sizeof(int);
 
     db<Setup>(TRC) << "PC_Setup::call_next(ip=" << ip << ",sp=" << sp << ") => ";
     if(si->lm.has_ini)
@@ -1110,7 +1110,7 @@ void _start()
 
         // Move the boot image to after SETUP, so there will be nothing else below SETUP to be preserved
         // SETUP code + data + 1 stack per CPU
-        register char * dst = MMU::align_page(entry + size + Traits<Machine>::CPUS * sizeof(MMU::Page));
+        char * dst = MMU::align_page(entry + size + Traits<Machine>::CPUS * sizeof(MMU::Page));
         memcpy(dst, bi, si->bm.img_size);
 
         // Passes a pointer to the just allocated stack pool to other CPUs
@@ -1159,7 +1159,7 @@ void _start()
     // SP = "entry" + "size" + #CPU * sizeof(Page)
     // Be careful: we'll loose our old stack now, so everything we still
     // need to reach PC_Setup() must be in regs or globals!
-    register char * sp = const_cast<char *>(Stacks) - sizeof(MMU::Page) * APIC::id();
+    char * sp = const_cast<char *>(Stacks) - sizeof(MMU::Page) * APIC::id();
     ASM("movl %0, %%esp" : : "r" (sp));
 
     // Pass the boot image to SETUP

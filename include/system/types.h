@@ -1,9 +1,12 @@
 // EPOS Common Types and Type Management System
 
-typedef __SIZE_TYPE__ size_t;
 
 #ifndef __types_h
 #define __types_h
+
+#include <system/config.h>
+
+typedef __SIZE_TYPE__ size_t;
 
 __BEGIN_API
 

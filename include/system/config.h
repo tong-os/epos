@@ -49,9 +49,12 @@ namespace EPOS {
 }
 #endif
 
-#define __HEADER_ARCH(X)        <architecture/ARCH/ARCH/**/_##X.h>
-#define __HEADER_MACH(X)        <machine/MACH/MACH/**/_##X.h>
-#define __HEADER_MMOD(X)        <machine/MACH/MMOD/MMOD/**/_##X.h>
+#define __TOKEN_CONCATENATE_INDIRECTION(X, Y)  X ## Y
+#define __TOKEN_CONCATENATE(X, Y) __TOKEN_CONCATENATE_INDIRECTION(X, Y)
+
+#define __HEADER_ARCH(X)        <architecture/ARCH/__TOKEN_CONCATENATE(ARCH, _##X).h>
+#define __HEADER_MACH(X)        <machine/MACH/__TOKEN_CONCATENATE(MACH, _##X).h>
+#define __HEADER_MMOD(X)        <machine/MACH/MMOD/__TOKEN_CONCATENATE(MMOD, _##X).h>
 #define __HEADER_TRAN(X)        <transducer/X.h>
 #define __APPL_TRAITS_T(X)      <../app/X/X##_traits.h>
 #define __APPL_TRAITS(X)        __APPL_TRAITS_T(X)
