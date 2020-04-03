@@ -58,8 +58,8 @@ public:
     // Atomic operations
     template<typename T>
     static T tsl(volatile T & lock) {
-        register T old;
-        register T one = 1;
+        T old;
+        T one = 1;
         ASM("1: ldrexb  %0, [%1]        \n"
             "   strexb  r3, %2, [%1]    \n"
             "   cmp     r3, #0          \n"
@@ -69,7 +69,7 @@ public:
 
     template<typename T>
     static T finc(volatile T & value) {
-        register T old;
+        T old;
         if(sizeof(T) == sizeof(Reg8))
             ASM("1: ldrexb  %0, [%1]        \n"
                 "   add     %0, #1          \n"
@@ -93,7 +93,7 @@ public:
 
     template<typename T>
     static T fdec(volatile T & value) {
-        register T old;
+        T old;
         if(sizeof(T) == sizeof(Reg8))
             ASM("1: ldrexb  %0, [%1]        \n"
                 "   sub     %0, #1          \n"
@@ -117,7 +117,7 @@ public:
 
     template <typename T>
     static T cas(volatile T & value, T compare, T replacement) {
-        register T old;
+        T old;
         if(sizeof(T) == sizeof(Reg8))
             ASM("1: ldrexb  %0, [%1]        \n"
                 "   cmp     %0, %2          \n"
@@ -187,7 +187,7 @@ protected:
 
 public:
     static Flags flags() {
-        register Reg32 value;
+        Reg32 value;
         ASM("mrs %0, xpsr" : "=r"(value) :);
         return value;
     }
@@ -267,7 +267,7 @@ protected:
 
 public:
     static Flags flags() {
-        register Reg32 value;
+        Reg32 value;
         ASM("mrs %0, cpsr_all" : "=r"(value) :);
         return value;
     }

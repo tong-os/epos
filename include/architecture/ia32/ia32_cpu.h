@@ -367,21 +367,21 @@ public:
 
     template<typename T>
     static T tsl(volatile T & lock) {
-        register T old = 1;
+        T old = 1;
         ASM("lock xchg %0, %2" : "=a"(old) : "a"(old), "m"(lock) : "memory");
         return old;
     }
 
     template<typename T>
     static T finc(volatile T & value) {
-        register T old = 1;
+        T old = 1;
         ASM("lock xadd %0, %2" : "=a"(old) : "a"(old), "m"(value) : "memory");
         return old;
     }
 
     template<typename T>
     static T fdec(volatile T & value) {
-        register T old = -1;
+        T old = -1;
         ASM("lock xadd %0, %2" : "=a"(old) : "a"(old), "m"(value) : "memory");
         return old;
     }
@@ -579,12 +579,12 @@ public:
     }
 
     static int bsf(Log_Addr addr) {
-        register unsigned int pos;
+        unsigned int pos;
         ASM("bsf %1,%0" : "=a"(pos) : "m"(addr) : );
         return pos;
     }
     static int bsr(Log_Addr addr) {
-        register int pos = -1;
+        int pos = -1;
         ASM("bsr %1, %0" : "=a"(pos) : "m"(addr) : );
         return pos;
     }

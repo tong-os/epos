@@ -806,7 +806,7 @@ void IC::exc_not(Reg32 eip, Reg32 cs, Reg32 eflags, Reg32 error)
 
 void IC::exc_pf(Reg32 eip, Reg32 cs, Reg32 eflags, Reg32 error)
 {
-    register Reg32 fr = CPU::fr();
+    Reg32 fr = CPU::fr();
 
     if(CPU::cr2() == reinterpret_cast<CPU::Reg32>(&__exit)) {
         db<IC,Machine>(INF) << "IC::exc_pf[address=" << reinterpret_cast<void *>(CPU::cr2()) << "]: final return!" << endl;
